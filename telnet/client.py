@@ -1,5 +1,6 @@
 import socket
 import json
+import os
 
 HOST = "127.0.0.1"
 PORT = 2323
@@ -65,8 +66,12 @@ try:
 
         response = json.loads(data)
 
-        # Display output
-        print(response["output"])
+        # Handle special responses
+        output = response["output"]
+        if output == "__CLEAR__":
+            os.system("cls" if os.name == "nt" else "clear")
+        else:
+            print(output)
 
 except ConnectionRefusedError:
     print("Unable to connect. Is the server running?")
